@@ -6,6 +6,8 @@ class ToDoList extends React.Component{
 
     constructor(){
         super();
+        this.handlechange = this.handlechange.bind(this);
+
         this.state ={
             todos : [
                 {
@@ -28,6 +30,38 @@ class ToDoList extends React.Component{
         };
     }
 
+
+    handlechange(id,ischecked){
+        let arr = this.state.todos;
+         for (const a in arr){
+             if(arr[a].id == id){   
+                 if(ischecked)     {        
+                    arr[a].complete=true;
+                 }
+                 else{
+                    arr[a].complete=false;
+                 }
+             }
+         }
+       
+         this.setState({
+             todos : arr
+         });
+
+        
+     }
+
+     handleClose(id){
+        let arr = this.state.todos.filter(x => !(x.id == id));        
+       
+         this.setState({
+             todos : arr
+         });
+
+        
+     }
+
+
     render(){
         
         let {todos} = this.state;
@@ -43,10 +77,10 @@ class ToDoList extends React.Component{
         return(
         <div>
              <div>
-                <PendingToDoList value={pendingToDos}/>
+                <PendingToDoList value={pendingToDos} onchange={this.handlechange} onclose={this.handleClose}/>
              </div>
              <div>
-                <CompletedToDoList value={completedToDos}/>      
+                <CompletedToDoList value={completedToDos} onchange={this.handlechange}/>      
             </div>
         </div>
         );
